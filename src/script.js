@@ -1,4 +1,4 @@
-export const elementy = () => { return document.querySelectorAll('li') }
+export const elementy = () => { return document.querySelectorAll('li:not(.started)') }
 export const start = (e, listaRzeczy, storage) => {e.forEach((i) => { draggable(i, listaRzeczy, storage) })}
 let source
 function draggable(element, listaRzeczy, storage){
@@ -38,6 +38,7 @@ function draggable(element, listaRzeczy, storage){
     element.addEventListener('dragover', dragOver)
     element.addEventListener('dragleave', dragLeave)
     element.addEventListener('drop', drop)
+    element.classList.add('started')
 }
 
 export default start
