@@ -3,7 +3,7 @@ import Rzecz from './Rzecz.vue';
 const props = defineProps({
     lista: Object
 })
-const emit = defineEmits(['usun', 'zrobione'])
+const emit = defineEmits(['usun', 'zrobione', 'mount'])
 function usun(rzecz){
     emit("usun", rzecz)
 }
@@ -12,8 +12,8 @@ function usun(rzecz){
 <template>
   <ol>
     <li v-if="lista.length === 0" class="empty">Brak przedmiotów na liście</li>
-    <li v-for="rzecz in lista" :key="rzecz.id">
-      <Rzecz :przedmiot="rzecz" @usun="emit('usun', rzecz)" @zrobione="(rzecz) => emit('zrobione', rzecz)"></Rzecz>
+    <li v-for="rzecz in lista" :key="rzecz.id" draggable="true" :data-id="rzecz.id">
+      <Rzecz :przedmiot="rzecz" @usun="emit('usun', rzecz)" @zrobione="(rzecz) => emit('zrobione', rzecz)" @mount="(e)=>{emit('mount', e)}"></Rzecz>
     </li>
   </ol>
 </template>

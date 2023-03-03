@@ -1,39 +1,43 @@
-// const start = () => document.querySelectorAll('li').forEach((e) => { draggable(e) })
+export const elementy = () => { return document.querySelectorAll('li') }
+export const start = (e, listaRzeczy, storage) => {e.forEach((i) => { draggable(i, listaRzeczy, storage) })}
+let source
+function draggable(element, listaRzeczy, storage){
+    function dragStart(e){
+        element.classList.add('active-drag')
+        source = this
+        e.dataTransfer.effectAllowed = 'move'
+        e.dataTransfer.setData('text/html', this.innerHTML)
+    }
+    function dragEnd(e){
+        element.classList.remove('active-drag')
+        elementy().forEach((i) => {i.classList.remove('drag-over')})
+    }
+    function dragOver(e){
+        e.preventDefault()
+        return false
+    }
+    function dragEnter(e){
+        this.classList.add('drag-over')
+    }
+    function dragLeave(e){
+        this.classList.remove('drag-over')
+    }
+    function drop(e){
+        e.stopPropagation()
+        const index1 = listaRzeczy.value.findIndex((e) => e.id == source.attributes['data-id'].value)
+        const index2 = listaRzeczy.value.findIndex((e) => e.id == this.attributes['data-id'].value)
+        const zapas = listaRzeczy.value[index1]
+        listaRzeczy.value[index1] = listaRzeczy.value[index2]
+        listaRzeczy.value[index2] = zapas
+        storage.setItem('lista-rzeczy', JSON.stringify(listaRzeczy.value))
+        return false
+    }
+    element.addEventListener('dragstart', dragStart)
+    element.addEventListener('dragend', dragEnd)
+    element.addEventListener('dragenter', dragEnter)
+    element.addEventListener('dragover', dragOver)
+    element.addEventListener('dragleave', dragLeave)
+    element.addEventListener('drop', drop)
+}
 
-// function draggable(element){
-//     let kursorX = 0, kursorY = 0, elementX = 0, elementY = 0, originX = 0, originY = 0
-//     element.onmousedown = dragMouseDown
-//     function dragMouseDown(e){
-//         e = e || window.event
-//         e.preventDefault()
-//         originX = element.offsetLeft
-//         originY = element.offsetTop
-//         element.classList.add('dragged')
-//         kursorX = e.clientX, kursorY = e.clientY
-//         element.onmouseup = stopDrag
-//         element.onmouseout = stopDrag
-//         element.onmousemove = drag
-//         element.style.top = originY + "px"
-//         element.style.left = originX + "px"
-//         elementX = originX
-//         elementY = originY
-//         console.log(originX, originY)
-//     }
-//     function drag(e){
-//         e = e || window.event
-//         e.preventDefault()
-//         elementX = kursorX - e.clientX, elementY = kursorY - e.clientY
-//         kursorX = e.clientX, kursorY = e.clientY
-//         element.style.top = (element.offsetTop - elementY) + "px"
-//         element.style.left = (element.offsetLeft - elementX) + "px"
-//     }
-//     function stopDrag(e){
-//         element.classList.remove('dragged')
-//         element.onmouseup = null
-//         element.onmousemove = null
-//         element.style.top = 0
-//         element.style.left = 0
-//     }
-// }
-
-// export default start
+export default start

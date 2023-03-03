@@ -7,7 +7,7 @@ body{
 }
 
 button{
-    background-color: #179cda;
+    background-color: rgb(23, 156, 218);
     border: none;
     padding: .5rem .75rem;
     border-radius: .6rem;
@@ -19,7 +19,10 @@ button:hover{
     filter:brightness(110%);
 }
 
-.dragged{
-    position: absolute !important;
-    z-index: 3;
+.drag-over{
+    background-color: rgba(40, 173, 235, 0.15);
+}
+
+.active-drag{
+    background-color: rgba(40, 173, 235, 0.25);
 }

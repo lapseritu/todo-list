@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faMinus } from '@fortawesome/free-solid-svg-icons'
@@ -7,12 +8,14 @@ library.add(faMinus)
 const props = defineProps({
     przedmiot: Object
 })
-
-const emit = defineEmits(['usun', 'zrobione'])
+const emit = defineEmits(['usun', 'zrobione', 'mount'])
+onMounted(()=>{
+    emit('mount', 'mount')
+})
 </script>
 
 <template>
-    <label :class="{'tekst-przedmiotu': true, 'zrobione': przedmiot.zrobione}" onclick="(e) => {return false}">
+    <label :class="{'tekst-przedmiotu': true, 'zrobione': przedmiot.zrobione}">
         <input class="czy-zrobione" type="checkbox" @click="emit('zrobione', przedmiot)" :checked="przedmiot.zrobione">
         {{ przedmiot.text }}
     </label>

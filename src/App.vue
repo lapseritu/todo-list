@@ -1,9 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import ListaRzeczy from './components/ListaRzeczy.vue'
+import { elementy, start } from './script'
+
 const nowy = ref('')
-const id = ref(0)
 const storage = localStorage
+const id = (storage.getItem('id')) ? ref(JSON.parse(storage.getItem('id'))) : ref(0) 
 const listaRzeczy = ref([])
 if(!storage.getItem('lista-rzeczy')){
   listaRzeczy.value = [
@@ -20,6 +22,7 @@ function dodaj(){
     listaRzeczy.value.push({text: nowy.value, id: id.value++, zrobione: false})
   nowy.value = ''
   storage.setItem('lista-rzeczy', JSON.stringify(listaRzeczy.value))
+  storage.setItem('id', JSON.stringify(id.value))
 }
 function usun(e){
   listaRzeczy.value = listaRzeczy.value.filter((i) => i !== e)
@@ -31,6 +34,15 @@ function zrobione(rzecz){
     return e
   })
   storage.setItem('lista-rzeczy', JSON.stringify(listaRzeczy.value))
+  start(elementy(), listaRzeczy, storage)
+}
+onMounted(() => {
+  start(elementy(), listaRzeczy, storage)
+})
+
+function onMountingItem(){
+  start(elementy(), listaRzeczy, storage)
+  storage.setItem('lista-rzeczy', JSON.stringify(listaRzeczy.value))
 }
 </script>
 
@@ -40,7 +52,7 @@ function zrobione(rzecz){
       <input type="text" placeholder="Dodaj..." v-model="nowy" id="nazwa-rzeczy">
       <button type="submit">Dodaj</button>
     </form>
-    <ListaRzeczy :lista="listaRzeczy" @usun="usun" @zrobione="zrobione"></ListaRzeczy>
+    <ListaRzeczy :lista="listaRzeczy" @usun="usun" @zrobione="zrobione" @mount="onMountingItem"></ListaRzeczy>
   </div>
 </template>
 
