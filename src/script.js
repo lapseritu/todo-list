@@ -10,7 +10,7 @@ function draggable(element, listaRzeczy, storage){
     }
     function dragEnd(e){
         element.classList.remove('active-drag')
-        elementy().forEach((i) => {i.classList.remove('drag-over')})
+        document.querySelectorAll('li').forEach((i) => {i.classList.remove('drag-over')})
     }
     function dragOver(e){
         e.preventDefault()
@@ -23,13 +23,14 @@ function draggable(element, listaRzeczy, storage){
         this.classList.remove('drag-over')
     }
     function drop(e){
-        e.stopPropagation()
         const index1 = listaRzeczy.value.findIndex((e) => e.id == source.attributes['data-id'].value)
         const index2 = listaRzeczy.value.findIndex((e) => e.id == this.attributes['data-id'].value)
         const zapas = listaRzeczy.value[index1]
         listaRzeczy.value[index1] = listaRzeczy.value[index2]
         listaRzeczy.value[index2] = zapas
         storage.setItem('lista-rzeczy', JSON.stringify(listaRzeczy.value))
+        document.querySelectorAll('li').forEach((i) => { console.log(i); i.classList.remove('drag-over')})
+        e.stopPropagation()
         return false
     }
     element.addEventListener('dragstart', dragStart)
