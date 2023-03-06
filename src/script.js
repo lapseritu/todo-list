@@ -1,35 +1,45 @@
 export const elementy = () => { return document.querySelectorAll('li:not(.started)') }
 export const start = (e, listaRzeczy, storage) => {e.forEach((i) => { draggable(i, listaRzeczy, storage) })}
+const elementyWszystkie = () => { return document.querySelectorAll('li') }
 let source
 function draggable(element, listaRzeczy, storage){
     function dragStart(e){
-        element.classList.add('active-drag')
         source = this
+        let flaga = false
+        document.querySelectorAll('li:has(.zrobione)').forEach((i) => { if(i===this){flaga = true} })
+        if(flaga) return
+        element.classList.add('active-drag')
         e.dataTransfer.effectAllowed = 'move'
         e.dataTransfer.setData('text/html', this.innerHTML)
     }
     function dragEnd(e){
         element.classList.remove('active-drag')
-        document.querySelectorAll('li').forEach((i) => {i.classList.remove('drag-over')})
+        elementyWszystkie().forEach((i) => {i.classList.remove('drag-over')})
     }
     function dragOver(e){
         e.preventDefault()
         return false
     }
     function dragEnter(e){
+        let flaga = false
+        document.querySelectorAll('li:has(.zrobione)').forEach((i) => { if(i===source){flaga = true} })
+        if(flaga) return
         this.classList.add('drag-over')
     }
     function dragLeave(e){
         this.classList.remove('drag-over')
     }
     function drop(e){
+        let flaga = false
+        document.querySelectorAll('li:has(.zrobione)').forEach((i) => { if(i===this || i===source){flaga = true} })
+        if(flaga) return
         const index1 = listaRzeczy.value.findIndex((e) => e.id == source.attributes['data-id'].value)
         const index2 = listaRzeczy.value.findIndex((e) => e.id == this.attributes['data-id'].value)
         const zapas = listaRzeczy.value[index1]
         listaRzeczy.value[index1] = listaRzeczy.value[index2]
         listaRzeczy.value[index2] = zapas
         storage.setItem('lista-rzeczy', JSON.stringify(listaRzeczy.value))
-        document.querySelectorAll('li').forEach((i) => { console.log(i); i.classList.remove('drag-over')})
+        elementyWszystkie().forEach((i) => { i.classList.remove('drag-over')})
         e.stopPropagation()
         return false
     }

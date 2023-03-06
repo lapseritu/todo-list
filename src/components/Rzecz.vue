@@ -33,7 +33,7 @@ onMounted(()=>{
     user-select: none;
 }
 .zrobione{
-    text-decoration: line-through .1rem;
+    text-decoration: line-through;
     font-weight: 100;
 }
 label{
