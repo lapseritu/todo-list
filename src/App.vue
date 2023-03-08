@@ -1,11 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import ListaRzeczy from './components/ListaRzeczy.vue'
-import { elementy, start } from './script'
+import { elementy, start, observe } from './script'
 
 const nowy = ref('')
 const storage = localStorage
 const id = (storage.getItem('id')) ? ref(JSON.parse(storage.getItem('id'))) : ref(0) 
+const width = ref(storage.getItem('listWidth'))
 const listaRzeczy = ref([])
 if(!storage.getItem('lista-rzeczy')){
   listaRzeczy.value = [
@@ -38,6 +39,7 @@ function zrobione(rzecz){
 }
 onMounted(() => {
   start(elementy(), listaRzeczy, storage)
+  observe(document.querySelector('ol'), storage)
 })
 
 function onMountingItem(){
@@ -52,7 +54,7 @@ function onMountingItem(){
       <input type="text" placeholder="Dodaj..." v-model="nowy" id="nazwa-rzeczy">
       <button type="submit">Dodaj</button>
     </form>
-    <ListaRzeczy :lista="listaRzeczy" @usun="usun" @zrobione="zrobione" @mount="onMountingItem"></ListaRzeczy>
+    <ListaRzeczy :lista="listaRzeczy" :width="width" @usun="usun" @zrobione="zrobione" @mount="onMountingItem"></ListaRzeczy>
   </div>
 </template>
 

@@ -1,5 +1,11 @@
 export const elementy = () => { return document.querySelectorAll('li:not(.started)') }
 export const start = (e, listaRzeczy, storage) => {e.forEach((i) => { draggable(i, listaRzeczy, storage) })}
+export const observe = (elements, storage) => {
+    const observer = new ResizeObserver((elements) => { elements.forEach((e) => {storage.setItem('listWidth', e.contentRect.width)})});
+    [elements].flat().forEach((e) => {
+        observer.observe(e)
+    })
+}
 const elementyWszystkie = () => { return document.querySelectorAll('li') }
 let source
 function draggable(element, listaRzeczy, storage){
@@ -51,5 +57,6 @@ function draggable(element, listaRzeczy, storage){
     element.addEventListener('drop', drop)
     element.classList.add('started')
 }
+
 
 export default start

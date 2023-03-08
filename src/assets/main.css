@@ -27,3 +27,7 @@ button:hover{
 .active-drag{
     background-color: rgba(40, 173, 235, 0.25);
 }
+
+::-webkit-resizer{
+    background-image: linear-gradient(to bottom right, transparent 75%, black 75%);
+}
