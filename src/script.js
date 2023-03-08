@@ -1,14 +1,14 @@
 export const elementy = () => { return document.querySelectorAll('li:not(.started)') }
-export const start = (e, listaRzeczy, storage) => {e.forEach((i) => { draggable(i, listaRzeczy, storage) })}
+export const start = (e, listaRzeczy, storage, width) => {e.forEach((i) => { draggable(i, listaRzeczy, storage, width) })}
 export const observe = (elements, storage) => {
-    const observer = new ResizeObserver((elements) => { elements.forEach((e) => {storage.setItem('listWidth', e.contentRect.width)})});
+    const observer = new ResizeObserver((elements) => { elements.forEach((e) => { storage.setItem('listWidth', e.contentRect.width)})});
     [elements].flat().forEach((e) => {
         observer.observe(e)
     })
 }
 const elementyWszystkie = () => { return document.querySelectorAll('li') }
 let source
-function draggable(element, listaRzeczy, storage){
+function draggable(element, listaRzeczy, storage, width){
     function dragStart(e){
         source = this
         let flaga = false
@@ -36,6 +36,7 @@ function draggable(element, listaRzeczy, storage){
         this.classList.remove('drag-over')
     }
     function drop(e){
+        width.value = storage.getItem('listWidth')
         let flaga = false
         document.querySelectorAll('li:has(.zrobione)').forEach((i) => { if(i===this || i===source){flaga = true} })
         if(flaga) return

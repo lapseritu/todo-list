@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import Rzecz from './Rzecz.vue';
 const props = defineProps({
     lista: Object,
@@ -9,7 +9,8 @@ const emit = defineEmits(['usun', 'zrobione', 'mount'])
 function usun(rzecz){
   emit("usun", rzecz)
 }
-const width2 = ref(parseInt(props.width)+ 2 + "px") //Ostatnia szerokość + 2 piksele obramowania + px
+
+const width2 = computed(()=>parseInt(props.width)+2+"px") //Ostatnia szerokość + 2 piksele obramowania + px
 </script>
 
 <template>
@@ -24,7 +25,7 @@ const width2 = ref(parseInt(props.width)+ 2 + "px") //Ostatnia szerokość + 2 p
 <style scoped>
 ol{
     min-width: 20rem;
-    max-width: 100%;
+    max-width: 20rem;
     width: 20rem;
     display: flex;
     flex-direction: column;
@@ -50,12 +51,13 @@ li{
     background-color: #eeeeee;
 }
 li:has(.zrobione){
-    background-color: #f7f7f7;
+    background-color: #e7e7e7;
     order:2;
 }
 @media screen and (min-width: 700px) {
   ol{
     resize: horizontal;
+    max-width: 100%;
   }    
 }
 </style>

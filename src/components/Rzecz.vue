@@ -16,6 +16,7 @@ onMounted(()=>{
 
 <template>
     <label :class="{'tekst-przedmiotu': true, 'zrobione': przedmiot.zrobione}">
+        <div v-if="przedmiot.zrobione" style="position: absolute; visibility: hidden;">Zrobione</div>
         <input class="czy-zrobione" type="checkbox" @click="emit('zrobione', przedmiot)" :checked="przedmiot.zrobione">
         {{ przedmiot.text }}
     </label>
@@ -27,6 +28,7 @@ onMounted(()=>{
 <style scoped>
 .tekst-przedmiotu{
     overflow-wrap: anywhere;
+    word-wrap: anywhere;
     font-weight: 600;
     -moz-user-select: none;
     -webkit-user-select: none;
