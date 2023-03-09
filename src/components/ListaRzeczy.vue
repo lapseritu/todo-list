@@ -10,7 +10,7 @@ function usun(rzecz){
   emit("usun", rzecz)
 }
 
-const width2 = computed(()=>parseInt(props.width)+2+"px") //Ostatnia szerokość + 2 piksele obramowania + px
+const width2 = computed(()=>parseInt(props.width)+2+"px") //Szerokość + 2 piksele obramowania + px
 </script>
 
 <template>

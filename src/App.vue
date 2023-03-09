@@ -54,7 +54,10 @@ function onMountingItem(){
 <template>
   <div id="pojemnik">
     <form @submit.prevent="dodaj">
-      <input type="text" placeholder="Dodaj..." v-model="nowy" id="nazwa-rzeczy">
+      <label>
+        <div class="label">Nowy przedmiot</div>
+        <input type="text" placeholder="Dodaj..." v-model="nowy" id="nazwa-rzeczy">
+      </label>
       <button type="submit">Dodaj</button>
     </form>
     <ListaRzeczy :lista="listaRzeczy" :width="width" @usun="usun" @zrobione="zrobione" @mount="onMountingItem"></ListaRzeczy>
@@ -73,8 +76,33 @@ form{
   justify-content: space-around;
   width: 20rem;
 }
-
+form label{
+  display: flex;
+  position: relative;
+}
+form label .label{
+  font-size: .9rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: calc(.5rem + 1px);
+  pointer-events: none;
+  transition: .5s;
+  color: gray;
+}
 input{
+  padding-left: .5rem;
+  padding-top: calc(.7rem + .1rem);
   outline: none;
+  border-radius: 0;
+  border: 1px black solid;
+}
+input::placeholder{
+  color: transparent;
+}
+form label:has(:focus) .label{
+  top: .5rem;
+  font-size: .7rem;
+  color: rgb(32, 32, 32);
 }
 </style>
