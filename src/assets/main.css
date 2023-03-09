@@ -2,13 +2,23 @@
     box-sizing: border-box;
     transition: background-color .25s;
 }
+:root{
+    --background-color: white;
+    --border-color: black;
+    --button-bg: rgb(23,156,218);
+    --color: black;
+    --zrobione: #e7e7e7;
+    --label-focus-color: #202020;
+}
 body{
     font-family: Arial, Helvetica, sans-serif;
     overflow-y: scroll;
+    background-color: var(--background-color);
+    color: var(--color);
 }
 
 button{
-    background-color: rgb(23, 156, 218);
+    background-color: var(--button-bg);
     border: none;
     padding: .5rem .75rem;
     border-radius: .6rem;
@@ -29,5 +39,14 @@ button:hover{
 }
 
 ::-webkit-resizer{
-    background-image: linear-gradient(to bottom right, transparent 75%, black 75%);
+    background-image: linear-gradient(to bottom right, transparent 75%, var(--color) 75%);
+}
+
+:root:has(#mode:checked){
+    --background-color: black;
+    --button-bg: #e86325;
+    --color: white;
+    --border-color: white;
+    --zrobione: #181818;
+    --label-focus-color: #dfdfdf;
 }

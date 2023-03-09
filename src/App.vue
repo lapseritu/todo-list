@@ -8,6 +8,8 @@ const storage = localStorage
 const id = (storage.getItem('id')) ? ref(JSON.parse(storage.getItem('id'))) : ref(0) 
 const width = storage.getItem('listWidth') ? ref(storage.getItem('listWidth')) : ref(320)
 const listaRzeczy = ref([])
+const darkMode = storage.getItem('isdarkmode') ? ref(storage.getItem('isdarkmode')) : ref(false)
+darkMode.value = (darkMode.value === 'true' || darkMode.value === true)
 if(!storage.getItem('lista-rzeczy')){
   listaRzeczy.value = [
     {text: 'Przykładowy przedmiot', id: id.value++, zrobione: false},
@@ -40,11 +42,18 @@ function zrobione(rzecz){
   storage.setItem('lista-rzeczy', JSON.stringify(listaRzeczy.value))
   start(elementy(), listaRzeczy, storage, width)
 }
+
 onMounted(() => {
   start(elementy(), listaRzeczy, storage, width)
   observe(document.querySelector('ol'), storage)
 })
-
+function log(e){
+  console.log(e)
+}
+function darkModeClick(e){
+  darkMode.value=!darkMode.value
+  storage.setItem('isdarkmode', darkMode.value)
+}
 function onMountingItem(){
   start(elementy(), listaRzeczy, storage, width)
   storage.setItem('lista-rzeczy', JSON.stringify(listaRzeczy.value))
@@ -53,6 +62,12 @@ function onMountingItem(){
 
 <template>
   <div id="pojemnik">
+    <div id="pojemnik-mode">
+      <label>
+        <i :class="{ 'fa-solid': true, 'fa-moon': !darkMode, 'fa-sun': darkMode }" id="ikona"></i>
+        <input type="checkbox" id="mode" placeholder="zmiana motywu" @click="darkModeClick" :checked="darkMode">
+      </label>
+    </div>
     <form @submit.prevent="dodaj">
       <label>
         <div class="label">Nowy przedmiot</div>
@@ -65,6 +80,16 @@ function onMountingItem(){
 </template>
 
 <style scoped>
+#pojemnik-mode{
+  position: fixed;
+  top: 1rem;
+  left: 100%;
+  transform: translateX(calc(-100% - 1rem));
+}
+#mode{
+  position: absolute;
+  display: none;
+}
 #pojemnik{
   width: 100%;
   display: flex;
@@ -95,14 +120,16 @@ input{
   padding-top: calc(.7rem + .1rem);
   outline: none;
   border-radius: 0;
-  border: 1px black solid;
+  border: 1px var(--border-color) solid;
+  background-color: var(--background-color);
+  color: var(--color);
 }
 input::placeholder{
   color: transparent;
 }
-form label:has(:focus) .label{
+form label:has(:focus) .label, form label:has(input:not(:placeholder-shown)) .label{
   top: .5rem;
   font-size: .7rem;
-  color: rgb(32, 32, 32);
+  color: var(--label-focus-color);
 }
 </style>

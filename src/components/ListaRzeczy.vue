@@ -32,13 +32,13 @@ ol{
     padding: 0;
     overflow: hidden;
     resize: none;
-    border: solid 1px black;
+    border: solid 1px var(--border-color);
     border-top: none;
 }
 li{
     display: flex;
     padding: 1rem;
-    border-top: solid 1px black;
+    border-top: solid 1px var(--border-color);
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
@@ -48,10 +48,10 @@ li{
 .empty{
     color: #808080;
     justify-content: center;
-    background-color: #eeeeee;
+    background-color: var(--zrobione);
 }
 li:has(.zrobione){
-    background-color: #e7e7e7;
+    background-color: var(--zrobione);
     order:2;
 }
 @media screen and (min-width: 700px) {
