@@ -47,9 +47,6 @@ onMounted(() => {
   start(elementy(), listaRzeczy, storage, width)
   observe(document.querySelector('ol'), storage)
 })
-function log(e){
-  console.log(e)
-}
 function darkModeClick(e){
   darkMode.value=!darkMode.value
   storage.setItem('isdarkmode', darkMode.value)
