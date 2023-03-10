@@ -1,6 +1,6 @@
 *{
     box-sizing: border-box;
-    transition: background-color .25s;
+    transition: background-color .25s, border .25s;
 }
 :root{
     --background-color: white;
@@ -21,7 +21,7 @@ button{
     background-color: var(--button-bg);
     border: none;
     padding: .5rem .75rem;
-    border-radius: .6rem;
+    border-radius: .5rem;
     color: white;
     transition: all .25s;
 }
